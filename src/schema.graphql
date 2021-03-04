@@ -43,8 +43,49 @@ type User {
     createdAt: String!
 }
 
+type Customer {
+  id: ID!
+  info: User!
+  phone: String
+  address: String!
+  requests: [Request]
+}
+
+type Driver {
+  id: ID!
+  info: User!
+  phone: String
+  acceptedRequests: [Request]
+}
+
+type Request {
+  id: ID!
+  description: String
+  items: [String!]!
+  date: String!
+  schedule: String!
+  costRange:[Int!]!
+  deliveryAddress: String!
+  status: String!
+  owner: Customer!
+  driver: Driver
+}
+
 enum MutationType {
     CREATED
     UPDATED
     DELETED
+}
+
+enum RequestStatus {
+  CREATED
+  ONHOLD
+  ASSIGNED
+  DELIVERED
+}
+
+enum RequestSchedule {
+    ASAP
+    TODAY
+    THISWEEK
 }
