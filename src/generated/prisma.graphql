@@ -1,15 +1,7 @@
 # source: http://localhost:4466/grabit/dev
-# timestamp: Thu Mar 04 2021 14:24:34 GMT+0100 (GMT+01:00)
+# timestamp: Fri Mar 05 2021 13:43:59 GMT+0100 (GMT+01:00)
 
 type AggregateCostRange {
-  count: Int!
-}
-
-type AggregateCustomer {
-  count: Int!
-}
-
-type AggregateDriver {
   count: Int!
 }
 
@@ -254,496 +246,7 @@ input CostRangeWhereUniqueInput {
   id: ID
 }
 
-type Customer implements Node {
-  id: ID!
-  info(where: UserWhereInput): User!
-  phone: String
-  address: String!
-  requests(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Request!]
-}
-
-"""A connection to a list of items."""
-type CustomerConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [CustomerEdge]!
-  aggregate: AggregateCustomer!
-}
-
-input CustomerCreateInput {
-  phone: String
-  address: String!
-  info: UserCreateOneInput!
-  requests: RequestCreateManyWithoutOwnerInput
-}
-
-input CustomerCreateOneWithoutRequestsInput {
-  create: CustomerCreateWithoutRequestsInput
-  connect: CustomerWhereUniqueInput
-}
-
-input CustomerCreateWithoutRequestsInput {
-  phone: String
-  address: String!
-  info: UserCreateOneInput!
-}
-
-"""An edge in a connection."""
-type CustomerEdge {
-  """The item at the end of the edge."""
-  node: Customer!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum CustomerOrderByInput {
-  id_ASC
-  id_DESC
-  phone_ASC
-  phone_DESC
-  address_ASC
-  address_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type CustomerPreviousValues {
-  id: ID!
-  phone: String
-  address: String!
-}
-
-type CustomerSubscriptionPayload {
-  mutation: MutationType!
-  node: Customer
-  updatedFields: [String!]
-  previousValues: CustomerPreviousValues
-}
-
-input CustomerSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [CustomerSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [CustomerSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [CustomerSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: CustomerWhereInput
-}
-
-input CustomerUpdateInput {
-  phone: String
-  address: String
-  info: UserUpdateOneInput
-  requests: RequestUpdateManyWithoutOwnerInput
-}
-
-input CustomerUpdateOneWithoutRequestsInput {
-  create: CustomerCreateWithoutRequestsInput
-  connect: CustomerWhereUniqueInput
-  delete: Boolean
-  update: CustomerUpdateWithoutRequestsDataInput
-  upsert: CustomerUpsertWithoutRequestsInput
-}
-
-input CustomerUpdateWithoutRequestsDataInput {
-  phone: String
-  address: String
-  info: UserUpdateOneInput
-}
-
-input CustomerUpsertWithoutRequestsInput {
-  update: CustomerUpdateWithoutRequestsDataInput!
-  create: CustomerCreateWithoutRequestsInput!
-}
-
-input CustomerWhereInput {
-  """Logical AND on all given filters."""
-  AND: [CustomerWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [CustomerWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [CustomerWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  phone: String
-
-  """All values that are not equal to given value."""
-  phone_not: String
-
-  """All values that are contained in given list."""
-  phone_in: [String!]
-
-  """All values that are not contained in given list."""
-  phone_not_in: [String!]
-
-  """All values less than the given value."""
-  phone_lt: String
-
-  """All values less than or equal the given value."""
-  phone_lte: String
-
-  """All values greater than the given value."""
-  phone_gt: String
-
-  """All values greater than or equal the given value."""
-  phone_gte: String
-
-  """All values containing the given string."""
-  phone_contains: String
-
-  """All values not containing the given string."""
-  phone_not_contains: String
-
-  """All values starting with the given string."""
-  phone_starts_with: String
-
-  """All values not starting with the given string."""
-  phone_not_starts_with: String
-
-  """All values ending with the given string."""
-  phone_ends_with: String
-
-  """All values not ending with the given string."""
-  phone_not_ends_with: String
-  address: String
-
-  """All values that are not equal to given value."""
-  address_not: String
-
-  """All values that are contained in given list."""
-  address_in: [String!]
-
-  """All values that are not contained in given list."""
-  address_not_in: [String!]
-
-  """All values less than the given value."""
-  address_lt: String
-
-  """All values less than or equal the given value."""
-  address_lte: String
-
-  """All values greater than the given value."""
-  address_gt: String
-
-  """All values greater than or equal the given value."""
-  address_gte: String
-
-  """All values containing the given string."""
-  address_contains: String
-
-  """All values not containing the given string."""
-  address_not_contains: String
-
-  """All values starting with the given string."""
-  address_starts_with: String
-
-  """All values not starting with the given string."""
-  address_not_starts_with: String
-
-  """All values ending with the given string."""
-  address_ends_with: String
-
-  """All values not ending with the given string."""
-  address_not_ends_with: String
-  info: UserWhereInput
-  requests_every: RequestWhereInput
-  requests_some: RequestWhereInput
-  requests_none: RequestWhereInput
-}
-
-input CustomerWhereUniqueInput {
-  id: ID
-}
-
 scalar DateTime
-
-type Driver implements Node {
-  id: ID!
-  info(where: UserWhereInput): User!
-  phone: String
-  acceptedRequests(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Request!]
-}
-
-"""A connection to a list of items."""
-type DriverConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [DriverEdge]!
-  aggregate: AggregateDriver!
-}
-
-input DriverCreateInput {
-  phone: String
-  info: UserCreateOneInput!
-  acceptedRequests: RequestCreateManyWithoutDriverInput
-}
-
-input DriverCreateOneWithoutAcceptedRequestsInput {
-  create: DriverCreateWithoutAcceptedRequestsInput
-  connect: DriverWhereUniqueInput
-}
-
-input DriverCreateWithoutAcceptedRequestsInput {
-  phone: String
-  info: UserCreateOneInput!
-}
-
-"""An edge in a connection."""
-type DriverEdge {
-  """The item at the end of the edge."""
-  node: Driver!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum DriverOrderByInput {
-  id_ASC
-  id_DESC
-  phone_ASC
-  phone_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type DriverPreviousValues {
-  id: ID!
-  phone: String
-}
-
-type DriverSubscriptionPayload {
-  mutation: MutationType!
-  node: Driver
-  updatedFields: [String!]
-  previousValues: DriverPreviousValues
-}
-
-input DriverSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [DriverSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [DriverSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [DriverSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: DriverWhereInput
-}
-
-input DriverUpdateInput {
-  phone: String
-  info: UserUpdateOneInput
-  acceptedRequests: RequestUpdateManyWithoutDriverInput
-}
-
-input DriverUpdateOneWithoutAcceptedRequestsInput {
-  create: DriverCreateWithoutAcceptedRequestsInput
-  connect: DriverWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: DriverUpdateWithoutAcceptedRequestsDataInput
-  upsert: DriverUpsertWithoutAcceptedRequestsInput
-}
-
-input DriverUpdateWithoutAcceptedRequestsDataInput {
-  phone: String
-  info: UserUpdateOneInput
-}
-
-input DriverUpsertWithoutAcceptedRequestsInput {
-  update: DriverUpdateWithoutAcceptedRequestsDataInput!
-  create: DriverCreateWithoutAcceptedRequestsInput!
-}
-
-input DriverWhereInput {
-  """Logical AND on all given filters."""
-  AND: [DriverWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [DriverWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [DriverWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  phone: String
-
-  """All values that are not equal to given value."""
-  phone_not: String
-
-  """All values that are contained in given list."""
-  phone_in: [String!]
-
-  """All values that are not contained in given list."""
-  phone_not_in: [String!]
-
-  """All values less than the given value."""
-  phone_lt: String
-
-  """All values less than or equal the given value."""
-  phone_lte: String
-
-  """All values greater than the given value."""
-  phone_gt: String
-
-  """All values greater than or equal the given value."""
-  phone_gte: String
-
-  """All values containing the given string."""
-  phone_contains: String
-
-  """All values not containing the given string."""
-  phone_not_contains: String
-
-  """All values starting with the given string."""
-  phone_starts_with: String
-
-  """All values not starting with the given string."""
-  phone_not_starts_with: String
-
-  """All values ending with the given string."""
-  phone_ends_with: String
-
-  """All values not ending with the given string."""
-  phone_not_ends_with: String
-  info: UserWhereInput
-  acceptedRequests_every: RequestWhereInput
-  acceptedRequests_some: RequestWhereInput
-  acceptedRequests_none: RequestWhereInput
-}
-
-input DriverWhereUniqueInput {
-  id: ID
-}
 
 type Item implements Node {
   id: ID!
@@ -971,38 +474,26 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createCustomer(data: CustomerCreateInput!): Customer!
-  createDriver(data: DriverCreateInput!): Driver!
   createItem(data: ItemCreateInput!): Item!
   createCostRange(data: CostRangeCreateInput!): CostRange!
   createRequest(data: RequestCreateInput!): Request!
   createUser(data: UserCreateInput!): User!
-  updateCustomer(data: CustomerUpdateInput!, where: CustomerWhereUniqueInput!): Customer
-  updateDriver(data: DriverUpdateInput!, where: DriverWhereUniqueInput!): Driver
   updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
   updateCostRange(data: CostRangeUpdateInput!, where: CostRangeWhereUniqueInput!): CostRange
   updateRequest(data: RequestUpdateInput!, where: RequestWhereUniqueInput!): Request
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteCustomer(where: CustomerWhereUniqueInput!): Customer
-  deleteDriver(where: DriverWhereUniqueInput!): Driver
   deleteItem(where: ItemWhereUniqueInput!): Item
   deleteCostRange(where: CostRangeWhereUniqueInput!): CostRange
   deleteRequest(where: RequestWhereUniqueInput!): Request
   deleteUser(where: UserWhereUniqueInput!): User
-  upsertCustomer(where: CustomerWhereUniqueInput!, create: CustomerCreateInput!, update: CustomerUpdateInput!): Customer!
-  upsertDriver(where: DriverWhereUniqueInput!, create: DriverCreateInput!, update: DriverUpdateInput!): Driver!
   upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
   upsertCostRange(where: CostRangeWhereUniqueInput!, create: CostRangeCreateInput!, update: CostRangeUpdateInput!): CostRange!
   upsertRequest(where: RequestWhereUniqueInput!, create: RequestCreateInput!, update: RequestUpdateInput!): Request!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManyCustomers(data: CustomerUpdateInput!, where: CustomerWhereInput): BatchPayload!
-  updateManyDrivers(data: DriverUpdateInput!, where: DriverWhereInput): BatchPayload!
   updateManyItems(data: ItemUpdateInput!, where: ItemWhereInput): BatchPayload!
   updateManyCostRanges(data: CostRangeUpdateInput!, where: CostRangeWhereInput): BatchPayload!
   updateManyRequests(data: RequestUpdateInput!, where: RequestWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
-  deleteManyCustomers(where: CustomerWhereInput): BatchPayload!
-  deleteManyDrivers(where: DriverWhereInput): BatchPayload!
   deleteManyItems(where: ItemWhereInput): BatchPayload!
   deleteManyCostRanges(where: CostRangeWhereInput): BatchPayload!
   deleteManyRequests(where: RequestWhereInput): BatchPayload!
@@ -1037,20 +528,14 @@ type PageInfo {
 }
 
 type Query {
-  customers(where: CustomerWhereInput, orderBy: CustomerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Customer]!
-  drivers(where: DriverWhereInput, orderBy: DriverOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Driver]!
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
   costRanges(where: CostRangeWhereInput, orderBy: CostRangeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CostRange]!
   requests(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Request]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  customer(where: CustomerWhereUniqueInput!): Customer
-  driver(where: DriverWhereUniqueInput!): Driver
   item(where: ItemWhereUniqueInput!): Item
   costRange(where: CostRangeWhereUniqueInput!): CostRange
   request(where: RequestWhereUniqueInput!): Request
   user(where: UserWhereUniqueInput!): User
-  customersConnection(where: CustomerWhereInput, orderBy: CustomerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CustomerConnection!
-  driversConnection(where: DriverWhereInput, orderBy: DriverOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DriverConnection!
   itemsConnection(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ItemConnection!
   costRangesConnection(where: CostRangeWhereInput, orderBy: CostRangeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CostRangeConnection!
   requestsConnection(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RequestConnection!
@@ -1072,8 +557,7 @@ type Request implements Node {
   costRange(where: CostRangeWhereInput): CostRange!
   deliveryAddress: String!
   status: String!
-  owner(where: CustomerWhereInput): Customer!
-  driver(where: DriverWhereInput): Driver
+  owner(where: UserWhereInput): User!
 }
 
 """A connection to a list of items."""
@@ -1094,17 +578,11 @@ input RequestCreateInput {
   status: String!
   items: ItemCreateManyWithoutRequestInput
   costRange: CostRangeCreateOneWithoutRequestInput!
-  owner: CustomerCreateOneWithoutRequestsInput!
-  driver: DriverCreateOneWithoutAcceptedRequestsInput
+  owner: UserCreateOneInput!
 }
 
-input RequestCreateManyWithoutDriverInput {
-  create: [RequestCreateWithoutDriverInput!]
-  connect: [RequestWhereUniqueInput!]
-}
-
-input RequestCreateManyWithoutOwnerInput {
-  create: [RequestCreateWithoutOwnerInput!]
+input RequestCreateManyInput {
+  create: [RequestCreateInput!]
   connect: [RequestWhereUniqueInput!]
 }
 
@@ -1125,19 +603,7 @@ input RequestCreateWithoutCostRangeInput {
   deliveryAddress: String!
   status: String!
   items: ItemCreateManyWithoutRequestInput
-  owner: CustomerCreateOneWithoutRequestsInput!
-  driver: DriverCreateOneWithoutAcceptedRequestsInput
-}
-
-input RequestCreateWithoutDriverInput {
-  description: String
-  date: String!
-  schedule: String!
-  deliveryAddress: String!
-  status: String!
-  items: ItemCreateManyWithoutRequestInput
-  costRange: CostRangeCreateOneWithoutRequestInput!
-  owner: CustomerCreateOneWithoutRequestsInput!
+  owner: UserCreateOneInput!
 }
 
 input RequestCreateWithoutItemsInput {
@@ -1147,19 +613,7 @@ input RequestCreateWithoutItemsInput {
   deliveryAddress: String!
   status: String!
   costRange: CostRangeCreateOneWithoutRequestInput!
-  owner: CustomerCreateOneWithoutRequestsInput!
-  driver: DriverCreateOneWithoutAcceptedRequestsInput
-}
-
-input RequestCreateWithoutOwnerInput {
-  description: String
-  date: String!
-  schedule: String!
-  deliveryAddress: String!
-  status: String!
-  items: ItemCreateManyWithoutRequestInput
-  costRange: CostRangeCreateOneWithoutRequestInput!
-  driver: DriverCreateOneWithoutAcceptedRequestsInput
+  owner: UserCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -1238,6 +692,17 @@ input RequestSubscriptionWhereInput {
   node: RequestWhereInput
 }
 
+input RequestUpdateDataInput {
+  description: String
+  date: String
+  schedule: String
+  deliveryAddress: String
+  status: String
+  items: ItemUpdateManyWithoutRequestInput
+  costRange: CostRangeUpdateOneWithoutRequestInput
+  owner: UserUpdateOneInput
+}
+
 input RequestUpdateInput {
   description: String
   date: String
@@ -1246,26 +711,16 @@ input RequestUpdateInput {
   status: String
   items: ItemUpdateManyWithoutRequestInput
   costRange: CostRangeUpdateOneWithoutRequestInput
-  owner: CustomerUpdateOneWithoutRequestsInput
-  driver: DriverUpdateOneWithoutAcceptedRequestsInput
+  owner: UserUpdateOneInput
 }
 
-input RequestUpdateManyWithoutDriverInput {
-  create: [RequestCreateWithoutDriverInput!]
+input RequestUpdateManyInput {
+  create: [RequestCreateInput!]
   connect: [RequestWhereUniqueInput!]
   disconnect: [RequestWhereUniqueInput!]
   delete: [RequestWhereUniqueInput!]
-  update: [RequestUpdateWithWhereUniqueWithoutDriverInput!]
-  upsert: [RequestUpsertWithWhereUniqueWithoutDriverInput!]
-}
-
-input RequestUpdateManyWithoutOwnerInput {
-  create: [RequestCreateWithoutOwnerInput!]
-  connect: [RequestWhereUniqueInput!]
-  disconnect: [RequestWhereUniqueInput!]
-  delete: [RequestWhereUniqueInput!]
-  update: [RequestUpdateWithWhereUniqueWithoutOwnerInput!]
-  upsert: [RequestUpsertWithWhereUniqueWithoutOwnerInput!]
+  update: [RequestUpdateWithWhereUniqueNestedInput!]
+  upsert: [RequestUpsertWithWhereUniqueNestedInput!]
 }
 
 input RequestUpdateOneWithoutCostRangeInput {
@@ -1293,19 +748,7 @@ input RequestUpdateWithoutCostRangeDataInput {
   deliveryAddress: String
   status: String
   items: ItemUpdateManyWithoutRequestInput
-  owner: CustomerUpdateOneWithoutRequestsInput
-  driver: DriverUpdateOneWithoutAcceptedRequestsInput
-}
-
-input RequestUpdateWithoutDriverDataInput {
-  description: String
-  date: String
-  schedule: String
-  deliveryAddress: String
-  status: String
-  items: ItemUpdateManyWithoutRequestInput
-  costRange: CostRangeUpdateOneWithoutRequestInput
-  owner: CustomerUpdateOneWithoutRequestsInput
+  owner: UserUpdateOneInput
 }
 
 input RequestUpdateWithoutItemsDataInput {
@@ -1315,29 +758,12 @@ input RequestUpdateWithoutItemsDataInput {
   deliveryAddress: String
   status: String
   costRange: CostRangeUpdateOneWithoutRequestInput
-  owner: CustomerUpdateOneWithoutRequestsInput
-  driver: DriverUpdateOneWithoutAcceptedRequestsInput
+  owner: UserUpdateOneInput
 }
 
-input RequestUpdateWithoutOwnerDataInput {
-  description: String
-  date: String
-  schedule: String
-  deliveryAddress: String
-  status: String
-  items: ItemUpdateManyWithoutRequestInput
-  costRange: CostRangeUpdateOneWithoutRequestInput
-  driver: DriverUpdateOneWithoutAcceptedRequestsInput
-}
-
-input RequestUpdateWithWhereUniqueWithoutDriverInput {
+input RequestUpdateWithWhereUniqueNestedInput {
   where: RequestWhereUniqueInput!
-  data: RequestUpdateWithoutDriverDataInput!
-}
-
-input RequestUpdateWithWhereUniqueWithoutOwnerInput {
-  where: RequestWhereUniqueInput!
-  data: RequestUpdateWithoutOwnerDataInput!
+  data: RequestUpdateDataInput!
 }
 
 input RequestUpsertWithoutCostRangeInput {
@@ -1350,16 +776,10 @@ input RequestUpsertWithoutItemsInput {
   create: RequestCreateWithoutItemsInput!
 }
 
-input RequestUpsertWithWhereUniqueWithoutDriverInput {
+input RequestUpsertWithWhereUniqueNestedInput {
   where: RequestWhereUniqueInput!
-  update: RequestUpdateWithoutDriverDataInput!
-  create: RequestCreateWithoutDriverInput!
-}
-
-input RequestUpsertWithWhereUniqueWithoutOwnerInput {
-  where: RequestWhereUniqueInput!
-  update: RequestUpdateWithoutOwnerDataInput!
-  create: RequestCreateWithoutOwnerInput!
+  update: RequestUpdateDataInput!
+  create: RequestCreateInput!
 }
 
 input RequestWhereInput {
@@ -1615,8 +1035,7 @@ input RequestWhereInput {
   items_some: ItemWhereInput
   items_none: ItemWhereInput
   costRange: CostRangeWhereInput
-  owner: CustomerWhereInput
-  driver: DriverWhereInput
+  owner: UserWhereInput
 }
 
 input RequestWhereUniqueInput {
@@ -1624,8 +1043,6 @@ input RequestWhereUniqueInput {
 }
 
 type Subscription {
-  customer(where: CustomerSubscriptionWhereInput): CustomerSubscriptionPayload
-  driver(where: DriverSubscriptionWhereInput): DriverSubscriptionPayload
   item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
   costRange(where: CostRangeSubscriptionWhereInput): CostRangeSubscriptionPayload
   request(where: RequestSubscriptionWhereInput): RequestSubscriptionPayload
@@ -1637,8 +1054,13 @@ type User implements Node {
   name: String!
   email: String!
   password: String!
+  phone: String!
+  address: String
   updatedAt: DateTime!
   createdAt: DateTime!
+  requests(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Request!]
+  acceptedRequests(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Request!]
+  role: String!
 }
 
 """A connection to a list of items."""
@@ -1655,6 +1077,11 @@ input UserCreateInput {
   name: String!
   email: String!
   password: String!
+  phone: String!
+  address: String
+  role: String!
+  requests: RequestCreateManyInput
+  acceptedRequests: RequestCreateManyInput
 }
 
 input UserCreateOneInput {
@@ -1680,10 +1107,16 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
+  phone_ASC
+  phone_DESC
+  address_ASC
+  address_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  role_ASC
+  role_DESC
 }
 
 type UserPreviousValues {
@@ -1691,8 +1124,11 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
+  phone: String!
+  address: String
   updatedAt: DateTime!
   createdAt: DateTime!
+  role: String!
 }
 
 type UserSubscriptionPayload {
@@ -1738,12 +1174,22 @@ input UserUpdateDataInput {
   name: String
   email: String
   password: String
+  phone: String
+  address: String
+  role: String
+  requests: RequestUpdateManyInput
+  acceptedRequests: RequestUpdateManyInput
 }
 
 input UserUpdateInput {
   name: String
   email: String
   password: String
+  phone: String
+  address: String
+  role: String
+  requests: RequestUpdateManyInput
+  acceptedRequests: RequestUpdateManyInput
 }
 
 input UserUpdateOneInput {
@@ -1928,6 +1374,86 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
+  phone: String
+
+  """All values that are not equal to given value."""
+  phone_not: String
+
+  """All values that are contained in given list."""
+  phone_in: [String!]
+
+  """All values that are not contained in given list."""
+  phone_not_in: [String!]
+
+  """All values less than the given value."""
+  phone_lt: String
+
+  """All values less than or equal the given value."""
+  phone_lte: String
+
+  """All values greater than the given value."""
+  phone_gt: String
+
+  """All values greater than or equal the given value."""
+  phone_gte: String
+
+  """All values containing the given string."""
+  phone_contains: String
+
+  """All values not containing the given string."""
+  phone_not_contains: String
+
+  """All values starting with the given string."""
+  phone_starts_with: String
+
+  """All values not starting with the given string."""
+  phone_not_starts_with: String
+
+  """All values ending with the given string."""
+  phone_ends_with: String
+
+  """All values not ending with the given string."""
+  phone_not_ends_with: String
+  address: String
+
+  """All values that are not equal to given value."""
+  address_not: String
+
+  """All values that are contained in given list."""
+  address_in: [String!]
+
+  """All values that are not contained in given list."""
+  address_not_in: [String!]
+
+  """All values less than the given value."""
+  address_lt: String
+
+  """All values less than or equal the given value."""
+  address_lte: String
+
+  """All values greater than the given value."""
+  address_gt: String
+
+  """All values greater than or equal the given value."""
+  address_gte: String
+
+  """All values containing the given string."""
+  address_contains: String
+
+  """All values not containing the given string."""
+  address_not_contains: String
+
+  """All values starting with the given string."""
+  address_starts_with: String
+
+  """All values not starting with the given string."""
+  address_not_starts_with: String
+
+  """All values ending with the given string."""
+  address_ends_with: String
+
+  """All values not ending with the given string."""
+  address_not_ends_with: String
   updatedAt: DateTime
 
   """All values that are not equal to given value."""
@@ -1972,6 +1498,52 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  role: String
+
+  """All values that are not equal to given value."""
+  role_not: String
+
+  """All values that are contained in given list."""
+  role_in: [String!]
+
+  """All values that are not contained in given list."""
+  role_not_in: [String!]
+
+  """All values less than the given value."""
+  role_lt: String
+
+  """All values less than or equal the given value."""
+  role_lte: String
+
+  """All values greater than the given value."""
+  role_gt: String
+
+  """All values greater than or equal the given value."""
+  role_gte: String
+
+  """All values containing the given string."""
+  role_contains: String
+
+  """All values not containing the given string."""
+  role_not_contains: String
+
+  """All values starting with the given string."""
+  role_starts_with: String
+
+  """All values not starting with the given string."""
+  role_not_starts_with: String
+
+  """All values ending with the given string."""
+  role_ends_with: String
+
+  """All values not ending with the given string."""
+  role_not_ends_with: String
+  requests_every: RequestWhereInput
+  requests_some: RequestWhereInput
+  requests_none: RequestWhereInput
+  acceptedRequests_every: RequestWhereInput
+  acceptedRequests_some: RequestWhereInput
+  acceptedRequests_none: RequestWhereInput
 }
 
 input UserWhereUniqueInput {

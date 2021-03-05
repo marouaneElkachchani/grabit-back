@@ -3,23 +3,13 @@ type User {
   name: String!
   email: String! @unique
   password: String!
+  phone: String!
+  address: String
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
-}
-
-type Customer {
-  id: ID! @unique @id
-  info: User! @relation(name: "CustomerToUser", onDelete: CASCADE)
-  phone: String
-  address: String!
   requests: [Request!]! @relation(name: "RequestToCustomer", onDelete: CASCADE)
-}
-
-type Driver {
-  id: ID! @unique @id
-  info: User! @relation(name: "DriverToUser", onDelete: CASCADE)
-  phone: String
   acceptedRequests: [Request!]! @relation(name: "RequestToDriver", onDelete: CASCADE)
+  role: String!
 }
 
 type Item {
@@ -44,7 +34,6 @@ type Request {
   costRange: CostRange! @relation(name: "RequestToCostRange", onDelete: CASCADE)
   deliveryAddress: String!
   status: String!
-  owner: Customer! @relation(name: "RequestToCustomer", onDelete: SET_NULL)
-  driver: Driver @relation(name: "RequestToDriver", onDelete: SET_NULL)
+  owner: User! @relation(name: "RequestToUser", onDelete: SET_NULL)
 }
 

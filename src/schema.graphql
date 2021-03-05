@@ -3,13 +3,14 @@
 type Query {
     users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
     me: User!
+    myRequests: [Request!]!
 }
 
 type Mutation {
     createUser(data: CreateUserInput!): AuthPayload!
-    login(data: LoginUserInput!): AuthPayload!
     deleteUser: User!
     updateUser(data: UpdateUserInput!): User!
+    login(data: LoginUserInput!): AuthPayload!
 }
 
 type AuthPayload {
@@ -21,6 +22,9 @@ input CreateUserInput {
     name: String!
     email: String!
     password: String!
+    phone: String!
+    address: String
+    role: String!
 }
 
 input LoginUserInput {
@@ -34,6 +38,31 @@ input UpdateUserInput {
     password: String
 }
 
+type Item {
+    id: ID!
+    name: String!
+    request: Request!
+}
+
+type CostRange {
+    id: ID!
+    from: Float!
+    to: Float!
+    request: Request!
+}
+
+type Request {
+  id: ID!
+  description: String
+  items: [Item!]!
+  date: String!
+  schedule: RequestSchedule!
+  costRange: CostRange!
+  deliveryAddress: String!
+  status: RequestStatus!
+  owner: User!
+}
+
 type User {
     id: ID!
     name: String!
@@ -41,40 +70,22 @@ type User {
     password: String!
     updatedAt: String!
     createdAt: String!
-}
-
-type Customer {
-  id: ID!
-  info: User!
-  phone: String
-  address: String!
-  requests: [Request]
-}
-
-type Driver {
-  id: ID!
-  info: User!
-  phone: String
-  acceptedRequests: [Request]
-}
-
-type Request {
-  id: ID!
-  description: String
-  items: [String!]!
-  date: String!
-  schedule: String!
-  costRange:[Int!]!
-  deliveryAddress: String!
-  status: String!
-  owner: Customer!
-  driver: Driver
+    phone: String!
+    address: String
+    role: Role!
+    requests: [Request!]!
+    acceptedRequests: [Request!]!
 }
 
 enum MutationType {
     CREATED
     UPDATED
     DELETED
+}
+
+enum Role {
+    CUSTOMER
+    DRIVER
 }
 
 enum RequestStatus {

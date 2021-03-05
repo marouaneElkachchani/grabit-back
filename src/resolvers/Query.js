@@ -27,6 +27,16 @@ const Query = {
                 id: userId
             }
         })
+    },
+    myRequests(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
+        return prisma.query.requests({
+            where: {
+                owner: {
+                    id: userId
+                }
+            }
+        }, info)
     }
 }
 
