@@ -62,6 +62,30 @@ const Mutation = {
             user,
             token: generateToken(user.id)
         }
+    },
+    async createRequest(parent, args, { prisma, request }, info) {
+        const userId =  getUserId(request)
+
+        return prisma.mutation.createRequest({
+            data: {
+                description: args.data.description,
+                items: {
+                    create: args.data.items
+                },
+                date: args.data.date,
+                schedule: args.data.schedule,
+                costRange: {
+                    create: args.data.costRange
+                },
+                deliveryAddress: args.data.deliveryAddress,
+                status: args.data.status,
+                owner: {
+                    connect: {
+                        id: userId
+                    }
+                }
+            }
+        }, info)
     }
 }
 

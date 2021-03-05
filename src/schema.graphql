@@ -1,9 +1,9 @@
-# import UserOrderByInput from './generated/prisma.graphql'
+# import UserOrderByInput, RequestOrderByInput from './generated/prisma.graphql'
 
 type Query {
     users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
     me: User!
-    myRequests: [Request!]!
+    myRequests(query: String, first: Int, skipt: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
 }
 
 type Mutation {
@@ -11,6 +11,7 @@ type Mutation {
     deleteUser: User!
     updateUser(data: UpdateUserInput!): User!
     login(data: LoginUserInput!): AuthPayload!
+    createRequest(data: CreateRequestInput!): Request!
 }
 
 type AuthPayload {
@@ -38,17 +39,34 @@ input UpdateUserInput {
     password: String
 }
 
+input CreateRequestInput {
+    description: String!
+    items: [CreateItemInput!]!
+    date: String!
+    schedule: String!
+    costRange: CreateCostRangeInput!
+    deliveryAddress: String!
+    status: String!
+}
+
+input CreateItemInput {
+    name: String!
+}
+
+input CreateCostRangeInput {
+    from: Float!
+    to: Float!
+}
+
 type Item {
     id: ID!
     name: String!
-    request: Request!
 }
 
 type CostRange {
     id: ID!
     from: Float!
     to: Float!
-    request: Request!
 }
 
 type Request {
@@ -56,10 +74,10 @@ type Request {
   description: String
   items: [Item!]!
   date: String!
-  schedule: RequestSchedule!
+  schedule: String!
   costRange: CostRange!
   deliveryAddress: String!
-  status: RequestStatus!
+  status: String!
   owner: User!
 }
 

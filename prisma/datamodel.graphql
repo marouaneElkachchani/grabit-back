@@ -15,14 +15,12 @@ type User {
 type Item {
   id: ID! @unique @id
   name: String!
-  request: Request @relation(name: "ItemToRequest", onDelete: SET_NULL)
 }
 
 type CostRange {
   id: ID! @unique @id
   from: Float!
   to: Float!
-  request: Request @relation(name: "RequestToCostRange", onDelete: SET_NULL, link: TABLE)
 }
 
 type Request {
