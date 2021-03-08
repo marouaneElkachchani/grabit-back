@@ -3,7 +3,8 @@
 type Query {
     users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
     me: User!
-    myRequests(query: String, first: Int, skipt: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
+    myRequests(query: String, first: Int, skip: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
+    request(id: ID!): Request!
 }
 
 type Mutation {
@@ -12,6 +13,8 @@ type Mutation {
     updateUser(data: UpdateUserInput!): User!
     login(data: LoginUserInput!): AuthPayload!
     createRequest(data: CreateRequestInput!): Request!
+    deleteRequest(id: ID!): Request!
+    updateRequest(id: ID!, data: UpdateRequestInput!): Request!
 }
 
 type AuthPayload {
@@ -46,6 +49,9 @@ input CreateRequestInput {
     schedule: String!
     costRange: CreateCostRangeInput!
     deliveryAddress: String!
+}
+
+input UpdateRequestInput {
     status: String!
 }
 
@@ -53,9 +59,18 @@ input CreateItemInput {
     name: String!
 }
 
+input UpdateItemInput {
+    name: String
+}
+
 input CreateCostRangeInput {
     from: Float!
     to: Float!
+}
+
+input UpdateCostRangeInput {
+    from: Float
+    to: Float
 }
 
 type Item {
@@ -78,7 +93,8 @@ type Request {
   costRange: CostRange!
   deliveryAddress: String!
   status: String!
-  owner: User!
+  owner: User
+  driver: User
 }
 
 type User {
@@ -107,7 +123,6 @@ enum Role {
 }
 
 enum RequestStatus {
-  CREATED
   ONHOLD
   ASSIGNED
   DELIVERED

@@ -65,7 +65,29 @@ const Mutation = {
     },
     async createRequest(parent, args, { prisma, request }, info) {
         const userId =  getUserId(request)
-
+        let driver = null
+        let owner = null
+        let status = null
+        const user = await prisma.query.user({
+            where: {
+                id: userId
+            }
+        })
+        if(user.role === 'DRIVER') {
+            driver = {
+                connect: {
+                    id: userId
+                }
+            }
+            status = 'ASSIGNED'
+        }else {
+            owner = {
+                connect: {
+                    id: userId
+                }
+            }
+            status = 'ONHOLD'
+        }
         return prisma.mutation.createRequest({
             data: {
                 description: args.data.description,
@@ -78,13 +100,75 @@ const Mutation = {
                     create: args.data.costRange
                 },
                 deliveryAddress: args.data.deliveryAddress,
-                status: args.data.status,
-                owner: {
-                    connect: {
-                        id: userId
-                    }
-                }
+                status,
+                owner,
+                driver
             }
+        }, info)
+    },
+    async deleteRequest(parent, args, { prisma, request }, info) {
+        const userId =  getUserId(request)
+        let driver = null
+        let owner = null
+        const user = await prisma.query.user({
+            where: {
+                id: userId
+            }
+        })
+        if(user.role === 'DRIVER') {
+            driver = {
+                    id: userId
+            }
+        }else {
+            owner = {
+                    id: userId
+            }
+        }
+        const requestExists = await prisma.exists.Request({
+            id: args.id,
+            driver,
+            owner
+        })
+        if (!requestExists) {
+            throw new Error('Enable to delete Request')
+        }
+        return prisma.mutation.deleteRequest({
+            where: {
+                id: args.id
+            }
+        }, info)
+    },
+    async updateRequest(parent, args, { prisma, request }, info) {
+        const userId =  getUserId(request)
+        let driver = null
+        let owner = null
+        const user = await prisma.query.user({
+            where: {
+                id: userId
+            }
+        })
+        if(user.role === 'DRIVER') {
+            driver = {
+                    id: userId
+            }
+        }else {
+            owner = {
+                    id: userId
+            }
+        }
+        const requestExists = await prisma.exists.Request({
+            id: args.id,
+            driver,
+            owner
+        })
+        if (!requestExists) {
+            throw new Error('Enable to update Request')
+        }
+        return prisma.mutation.updateRequest({
+            where: {
+                id: args.id
+            },
+            data: args.data
         }, info)
     }
 }
