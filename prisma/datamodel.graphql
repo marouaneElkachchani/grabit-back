@@ -36,7 +36,8 @@ type Request {
   costRange: CostRange! @relation(name: "RequestToCostRange", onDelete: CASCADE)
   deliveryAddress: String!
   status: String!
-  owner: User! @relation(name: "RequestToUser", onDelete: SET_NULL)
+  owner: User @relation(name: "RequestToCustomer", onDelete: SET_NULL)
+  driver: User @relation(name: "RequestToDriver", onDelete: SET_NULL)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
