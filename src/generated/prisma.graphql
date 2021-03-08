@@ -1,5 +1,5 @@
 # source: http://localhost:4466/grabit/dev
-# timestamp: Fri Mar 05 2021 13:43:59 GMT+0100 (GMT+01:00)
+# timestamp: Mon Mar 08 2021 10:08:23 GMT+0100 (GMT+01:00)
 
 type AggregateCostRange {
   count: Int!
@@ -26,7 +26,8 @@ type CostRange implements Node {
   id: ID!
   from: Float!
   to: Float!
-  request(where: RequestWhereInput): Request
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -42,17 +43,11 @@ type CostRangeConnection {
 input CostRangeCreateInput {
   from: Float!
   to: Float!
-  request: RequestCreateOneWithoutCostRangeInput
 }
 
-input CostRangeCreateOneWithoutRequestInput {
-  create: CostRangeCreateWithoutRequestInput
+input CostRangeCreateOneInput {
+  create: CostRangeCreateInput
   connect: CostRangeWhereUniqueInput
-}
-
-input CostRangeCreateWithoutRequestInput {
-  from: Float!
-  to: Float!
 }
 
 """An edge in a connection."""
@@ -81,6 +76,8 @@ type CostRangePreviousValues {
   id: ID!
   from: Float!
   to: Float!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type CostRangeSubscriptionPayload {
@@ -122,28 +119,27 @@ input CostRangeSubscriptionWhereInput {
   node: CostRangeWhereInput
 }
 
+input CostRangeUpdateDataInput {
+  from: Float
+  to: Float
+}
+
 input CostRangeUpdateInput {
   from: Float
   to: Float
-  request: RequestUpdateOneWithoutCostRangeInput
 }
 
-input CostRangeUpdateOneWithoutRequestInput {
-  create: CostRangeCreateWithoutRequestInput
+input CostRangeUpdateOneInput {
+  create: CostRangeCreateInput
   connect: CostRangeWhereUniqueInput
   delete: Boolean
-  update: CostRangeUpdateWithoutRequestDataInput
-  upsert: CostRangeUpsertWithoutRequestInput
+  update: CostRangeUpdateDataInput
+  upsert: CostRangeUpsertNestedInput
 }
 
-input CostRangeUpdateWithoutRequestDataInput {
-  from: Float
-  to: Float
-}
-
-input CostRangeUpsertWithoutRequestInput {
-  update: CostRangeUpdateWithoutRequestDataInput!
-  create: CostRangeCreateWithoutRequestInput!
+input CostRangeUpsertNestedInput {
+  update: CostRangeUpdateDataInput!
+  create: CostRangeCreateInput!
 }
 
 input CostRangeWhereInput {
@@ -239,7 +235,50 @@ input CostRangeWhereInput {
 
   """All values greater than or equal the given value."""
   to_gte: Float
-  request: RequestWhereInput
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
 }
 
 input CostRangeWhereUniqueInput {
@@ -251,7 +290,8 @@ scalar DateTime
 type Item implements Node {
   id: ID!
   name: String!
-  request(where: RequestWhereInput): Request
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -266,16 +306,11 @@ type ItemConnection {
 
 input ItemCreateInput {
   name: String!
-  request: RequestCreateOneWithoutItemsInput
 }
 
-input ItemCreateManyWithoutRequestInput {
-  create: [ItemCreateWithoutRequestInput!]
+input ItemCreateManyInput {
+  create: [ItemCreateInput!]
   connect: [ItemWhereUniqueInput!]
-}
-
-input ItemCreateWithoutRequestInput {
-  name: String!
 }
 
 """An edge in a connection."""
@@ -301,6 +336,8 @@ enum ItemOrderByInput {
 type ItemPreviousValues {
   id: ID!
   name: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type ItemSubscriptionPayload {
@@ -342,33 +379,32 @@ input ItemSubscriptionWhereInput {
   node: ItemWhereInput
 }
 
-input ItemUpdateInput {
+input ItemUpdateDataInput {
   name: String
-  request: RequestUpdateOneWithoutItemsInput
 }
 
-input ItemUpdateManyWithoutRequestInput {
-  create: [ItemCreateWithoutRequestInput!]
+input ItemUpdateInput {
+  name: String
+}
+
+input ItemUpdateManyInput {
+  create: [ItemCreateInput!]
   connect: [ItemWhereUniqueInput!]
   disconnect: [ItemWhereUniqueInput!]
   delete: [ItemWhereUniqueInput!]
-  update: [ItemUpdateWithWhereUniqueWithoutRequestInput!]
-  upsert: [ItemUpsertWithWhereUniqueWithoutRequestInput!]
+  update: [ItemUpdateWithWhereUniqueNestedInput!]
+  upsert: [ItemUpsertWithWhereUniqueNestedInput!]
 }
 
-input ItemUpdateWithoutRequestDataInput {
-  name: String
-}
-
-input ItemUpdateWithWhereUniqueWithoutRequestInput {
+input ItemUpdateWithWhereUniqueNestedInput {
   where: ItemWhereUniqueInput!
-  data: ItemUpdateWithoutRequestDataInput!
+  data: ItemUpdateDataInput!
 }
 
-input ItemUpsertWithWhereUniqueWithoutRequestInput {
+input ItemUpsertWithWhereUniqueNestedInput {
   where: ItemWhereUniqueInput!
-  update: ItemUpdateWithoutRequestDataInput!
-  create: ItemCreateWithoutRequestInput!
+  update: ItemUpdateDataInput!
+  create: ItemCreateInput!
 }
 
 input ItemWhereInput {
@@ -460,7 +496,50 @@ input ItemWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
-  request: RequestWhereInput
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
 }
 
 input ItemWhereUniqueInput {
@@ -558,6 +637,8 @@ type Request implements Node {
   deliveryAddress: String!
   status: String!
   owner(where: UserWhereInput): User!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -576,44 +657,14 @@ input RequestCreateInput {
   schedule: String!
   deliveryAddress: String!
   status: String!
-  items: ItemCreateManyWithoutRequestInput
-  costRange: CostRangeCreateOneWithoutRequestInput!
+  items: ItemCreateManyInput
+  costRange: CostRangeCreateOneInput!
   owner: UserCreateOneInput!
 }
 
 input RequestCreateManyInput {
   create: [RequestCreateInput!]
   connect: [RequestWhereUniqueInput!]
-}
-
-input RequestCreateOneWithoutCostRangeInput {
-  create: RequestCreateWithoutCostRangeInput
-  connect: RequestWhereUniqueInput
-}
-
-input RequestCreateOneWithoutItemsInput {
-  create: RequestCreateWithoutItemsInput
-  connect: RequestWhereUniqueInput
-}
-
-input RequestCreateWithoutCostRangeInput {
-  description: String
-  date: String!
-  schedule: String!
-  deliveryAddress: String!
-  status: String!
-  items: ItemCreateManyWithoutRequestInput
-  owner: UserCreateOneInput!
-}
-
-input RequestCreateWithoutItemsInput {
-  description: String
-  date: String!
-  schedule: String!
-  deliveryAddress: String!
-  status: String!
-  costRange: CostRangeCreateOneWithoutRequestInput!
-  owner: UserCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -651,6 +702,8 @@ type RequestPreviousValues {
   schedule: String!
   deliveryAddress: String!
   status: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type RequestSubscriptionPayload {
@@ -698,8 +751,8 @@ input RequestUpdateDataInput {
   schedule: String
   deliveryAddress: String
   status: String
-  items: ItemUpdateManyWithoutRequestInput
-  costRange: CostRangeUpdateOneWithoutRequestInput
+  items: ItemUpdateManyInput
+  costRange: CostRangeUpdateOneInput
   owner: UserUpdateOneInput
 }
 
@@ -709,8 +762,8 @@ input RequestUpdateInput {
   schedule: String
   deliveryAddress: String
   status: String
-  items: ItemUpdateManyWithoutRequestInput
-  costRange: CostRangeUpdateOneWithoutRequestInput
+  items: ItemUpdateManyInput
+  costRange: CostRangeUpdateOneInput
   owner: UserUpdateOneInput
 }
 
@@ -723,57 +776,9 @@ input RequestUpdateManyInput {
   upsert: [RequestUpsertWithWhereUniqueNestedInput!]
 }
 
-input RequestUpdateOneWithoutCostRangeInput {
-  create: RequestCreateWithoutCostRangeInput
-  connect: RequestWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: RequestUpdateWithoutCostRangeDataInput
-  upsert: RequestUpsertWithoutCostRangeInput
-}
-
-input RequestUpdateOneWithoutItemsInput {
-  create: RequestCreateWithoutItemsInput
-  connect: RequestWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: RequestUpdateWithoutItemsDataInput
-  upsert: RequestUpsertWithoutItemsInput
-}
-
-input RequestUpdateWithoutCostRangeDataInput {
-  description: String
-  date: String
-  schedule: String
-  deliveryAddress: String
-  status: String
-  items: ItemUpdateManyWithoutRequestInput
-  owner: UserUpdateOneInput
-}
-
-input RequestUpdateWithoutItemsDataInput {
-  description: String
-  date: String
-  schedule: String
-  deliveryAddress: String
-  status: String
-  costRange: CostRangeUpdateOneWithoutRequestInput
-  owner: UserUpdateOneInput
-}
-
 input RequestUpdateWithWhereUniqueNestedInput {
   where: RequestWhereUniqueInput!
   data: RequestUpdateDataInput!
-}
-
-input RequestUpsertWithoutCostRangeInput {
-  update: RequestUpdateWithoutCostRangeDataInput!
-  create: RequestCreateWithoutCostRangeInput!
-}
-
-input RequestUpsertWithoutItemsInput {
-  update: RequestUpdateWithoutItemsDataInput!
-  create: RequestCreateWithoutItemsInput!
 }
 
 input RequestUpsertWithWhereUniqueNestedInput {
@@ -1031,6 +1036,50 @@ input RequestWhereInput {
 
   """All values not ending with the given string."""
   status_not_ends_with: String
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
   items_every: ItemWhereInput
   items_some: ItemWhereInput
   items_none: ItemWhereInput

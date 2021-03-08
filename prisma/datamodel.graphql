@@ -15,12 +15,16 @@ type User {
 type Item {
   id: ID! @unique @id
   name: String!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
 type CostRange {
   id: ID! @unique @id
   from: Float!
   to: Float!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
 type Request {
@@ -33,5 +37,7 @@ type Request {
   deliveryAddress: String!
   status: String!
   owner: User! @relation(name: "RequestToUser", onDelete: SET_NULL)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
