@@ -12,6 +12,11 @@ const User = {
                 return null
             }
         }
+    },
+    password: {
+        resolve(parent, args, { request }, info) {
+            return null
+        }
     }
 }
 
