@@ -106,7 +106,7 @@ type User {
     id: ID!
     name: String!
     email: String
-    password: String!
+    password: String
     updatedAt: String!
     createdAt: String!
     phone: String!
