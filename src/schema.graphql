@@ -17,6 +17,11 @@ type Mutation {
     updateRequest(id: ID!, data: UpdateRequestInput!): Request!
 }
 
+type Subscription {
+     myAssignedRequestsAsCustomer: RequestSubscriptionPayload!
+     onHoldRequests: RequestSubscriptionPayload!
+}
+
 type AuthPayload {
     token: String!
     user: User!
@@ -132,4 +137,9 @@ enum RequestSchedule {
     ASAP
     TODAY
     THISWEEK
+}
+
+type RequestSubscriptionPayload {
+    mutation: MutationType!
+    node: Request
 }
