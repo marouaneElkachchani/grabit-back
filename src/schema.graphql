@@ -54,6 +54,7 @@ input CreateRequestInput {
     date: String!
     schedule: String!
     costRange: CreateCostRangeInput!
+    addressDeparture: String!
     deliveryAddress: String!
 }
 
@@ -97,6 +98,7 @@ type Request {
   date: String!
   schedule: String!
   costRange: CostRange!
+  addressDeparture: String!
   deliveryAddress: String!
   status: String!
   owner: User

@@ -99,6 +99,7 @@ const Mutation = {
                 costRange: {
                     create: args.data.costRange
                 },
+                addressDeparture: args.data.addressDeparture,
                 deliveryAddress: args.data.deliveryAddress,
                 status,
                 owner,

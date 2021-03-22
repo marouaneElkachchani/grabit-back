@@ -34,6 +34,7 @@ type Request {
   date: String!
   schedule: String!
   costRange: CostRange! @relation(name: "RequestToCostRange", onDelete: CASCADE)
+  addressDeparture: String!
   deliveryAddress: String!
   status: String!
   owner: User @relation(name: "RequestToCustomer", onDelete: SET_NULL)

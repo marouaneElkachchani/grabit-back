@@ -1,5 +1,5 @@
 # source: http://localhost:4466/grabit/dev
-# timestamp: Mon Mar 08 2021 10:37:32 GMT+0100 (GMT+01:00)
+# timestamp: Fri Mar 12 2021 15:06:24 GMT+0100 (GMT+01:00)
 
 type AggregateCostRange {
   count: Int!
@@ -634,6 +634,7 @@ type Request implements Node {
   date: String!
   schedule: String!
   costRange(where: CostRangeWhereInput): CostRange!
+  addressDeparture: String!
   deliveryAddress: String!
   status: String!
   owner(where: UserWhereInput): User
@@ -656,6 +657,7 @@ input RequestCreateInput {
   description: String
   date: String!
   schedule: String!
+  addressDeparture: String!
   deliveryAddress: String!
   status: String!
   items: ItemCreateManyInput
@@ -678,6 +680,7 @@ input RequestCreateWithoutDriverInput {
   description: String
   date: String!
   schedule: String!
+  addressDeparture: String!
   deliveryAddress: String!
   status: String!
   items: ItemCreateManyInput
@@ -689,6 +692,7 @@ input RequestCreateWithoutOwnerInput {
   description: String
   date: String!
   schedule: String!
+  addressDeparture: String!
   deliveryAddress: String!
   status: String!
   items: ItemCreateManyInput
@@ -714,6 +718,8 @@ enum RequestOrderByInput {
   date_DESC
   schedule_ASC
   schedule_DESC
+  addressDeparture_ASC
+  addressDeparture_DESC
   deliveryAddress_ASC
   deliveryAddress_DESC
   status_ASC
@@ -729,6 +735,7 @@ type RequestPreviousValues {
   description: String
   date: String!
   schedule: String!
+  addressDeparture: String!
   deliveryAddress: String!
   status: String!
   updatedAt: DateTime!
@@ -778,6 +785,7 @@ input RequestUpdateInput {
   description: String
   date: String
   schedule: String
+  addressDeparture: String
   deliveryAddress: String
   status: String
   items: ItemUpdateManyInput
@@ -808,6 +816,7 @@ input RequestUpdateWithoutDriverDataInput {
   description: String
   date: String
   schedule: String
+  addressDeparture: String
   deliveryAddress: String
   status: String
   items: ItemUpdateManyInput
@@ -819,6 +828,7 @@ input RequestUpdateWithoutOwnerDataInput {
   description: String
   date: String
   schedule: String
+  addressDeparture: String
   deliveryAddress: String
   status: String
   items: ItemUpdateManyInput
@@ -1017,6 +1027,46 @@ input RequestWhereInput {
 
   """All values not ending with the given string."""
   schedule_not_ends_with: String
+  addressDeparture: String
+
+  """All values that are not equal to given value."""
+  addressDeparture_not: String
+
+  """All values that are contained in given list."""
+  addressDeparture_in: [String!]
+
+  """All values that are not contained in given list."""
+  addressDeparture_not_in: [String!]
+
+  """All values less than the given value."""
+  addressDeparture_lt: String
+
+  """All values less than or equal the given value."""
+  addressDeparture_lte: String
+
+  """All values greater than the given value."""
+  addressDeparture_gt: String
+
+  """All values greater than or equal the given value."""
+  addressDeparture_gte: String
+
+  """All values containing the given string."""
+  addressDeparture_contains: String
+
+  """All values not containing the given string."""
+  addressDeparture_not_contains: String
+
+  """All values starting with the given string."""
+  addressDeparture_starts_with: String
+
+  """All values not starting with the given string."""
+  addressDeparture_not_starts_with: String
+
+  """All values ending with the given string."""
+  addressDeparture_ends_with: String
+
+  """All values not ending with the given string."""
+  addressDeparture_not_ends_with: String
   deliveryAddress: String
 
   """All values that are not equal to given value."""
