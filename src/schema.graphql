@@ -44,6 +44,7 @@ input LoginUserInput {
 input UpdateUserInput {
     name: String
     email: String
+    address: String
     password: String
     phone: String
 }
