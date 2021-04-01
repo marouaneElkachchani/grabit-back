@@ -12,7 +12,6 @@ const Mutation = {
                 password
             }
         })
-
         return {
             user,
             token: generateToken(user.id)
@@ -49,13 +48,13 @@ const Mutation = {
         })
 
         if (!user) {
-            throw new Error('Unable to login')
+            throw new Error('Incorrect email')
         }
 
         const isMatch = await bcrypt.compare(args.data.password, user.password)
 
         if (!isMatch) {
-            throw new Error('Unable to login')
+            throw new Error('Incorrect password')
         }
 
         return {
@@ -105,7 +104,15 @@ const Mutation = {
                 owner,
                 driver
             }
-        }, info)
+        }, info).catch( (error) => {
+
+
+            
+            console.log(error)
+
+
+
+        })
     },
     async deleteRequest(parent, args, { prisma, request }, info) {
         const userId =  getUserId(request)
