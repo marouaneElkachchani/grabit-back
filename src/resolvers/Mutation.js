@@ -5,6 +5,18 @@ import hashPassword from '../utils/hashPassword'
 
 const Mutation = {
     async createUser(parent, args, { prisma }, info) {
+        if(args.data.name === '') {
+            throw new Error('Name is required')
+        }
+        if(args.data.email === '') {
+            throw new Error('Email is required')
+        }
+        if(args.data.password === '') {
+            throw new Error('Password is required')
+        }
+        if(args.data.phone === '') {
+            throw new Error('Phone is required')
+        }
         const password = await hashPassword(args.data.password)
         const user = await prisma.mutation.createUser({
             data: {
