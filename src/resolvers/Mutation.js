@@ -82,6 +82,27 @@ const Mutation = {
     },
     async createRequest(parent, args, { prisma, request }, info) {
         const userId =  getUserId(request)
+        if(args.data.description === '') {
+            throw new Error('Description is required')
+        }
+        if(args.data.items.length === 0) {
+            throw new Error('Items are required')
+        }
+        if(args.data.date === '') {
+            throw new Error('Date is required')
+        }
+        if(args.data.schedule === '') {
+            throw new Error('Schedule is required')
+        }
+        if(args.data.costRange.from === 0 || args.data.costRange.to === 0) {
+            throw new Error('Cost Range is required')
+        }
+        if(args.data.addressDeparture === '') {
+            throw new Error('Address Departure is required')
+        }
+        if(args.data.deliveryAddress === '') {
+            throw new Error('Delivery Address is required')
+        }
         let driver = null
         let owner = null
         let status = null
@@ -122,15 +143,7 @@ const Mutation = {
                 owner,
                 driver
             }
-        }, info).catch( (error) => {
-
-
-            
-            console.log(error)
-
-
-
-        })
+        }, info)
     },
     async deleteRequest(parent, args, { prisma, request }, info) {
         const userId =  getUserId(request)
