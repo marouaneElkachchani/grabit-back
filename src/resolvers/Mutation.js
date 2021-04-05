@@ -39,12 +39,22 @@ const Mutation = {
         }, info)
     },
     async updateUser(parent, args, { prisma, request }, info) {
+        if(args.data.name === '') {
+            throw new Error('Name is required')
+        }
+        if(args.data.email === '') {
+            throw new Error('Email is required')
+        }
+        if(args.data.phone === '') {
+            throw new Error('Phone is required')
+        }
+        if(args.data.address === '') {
+            throw new Error('Address is required')
+        }
         const userId = getUserId(request)
-
         if (typeof args.data.password === 'string') {
             args.data.password = await hashPassword(args.data.password)
         }
-
         return prisma.mutation.updateUser({
             where: {
                 id: userId
@@ -58,17 +68,13 @@ const Mutation = {
                 email: args.data.email
             }
         })
-
         if (!user) {
             throw new Error('Incorrect email')
         }
-
         const isMatch = await bcrypt.compare(args.data.password, user.password)
-
         if (!isMatch) {
             throw new Error('Incorrect password')
         }
-
         return {
             user,
             token: generateToken(user.id)
