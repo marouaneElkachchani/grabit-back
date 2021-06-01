@@ -1,5 +1,5 @@
 # source: http://localhost:4466/grabit/dev
-# timestamp: Fri Mar 12 2021 15:06:24 GMT+0100 (GMT+01:00)
+# timestamp: Tue Jun 01 2021 14:43:34 GMT+0100 (GMT+01:00)
 
 type AggregateCostRange {
   count: Int!
@@ -1214,6 +1214,7 @@ type User implements Node {
   id: ID!
   name: String!
   email: String!
+  pictureUrl: String
   password: String!
   phone: String!
   address: String
@@ -1237,6 +1238,7 @@ type UserConnection {
 input UserCreateInput {
   name: String!
   email: String!
+  pictureUrl: String
   password: String!
   phone: String!
   address: String
@@ -1258,6 +1260,7 @@ input UserCreateOneWithoutRequestsInput {
 input UserCreateWithoutAcceptedRequestsInput {
   name: String!
   email: String!
+  pictureUrl: String
   password: String!
   phone: String!
   address: String
@@ -1268,6 +1271,7 @@ input UserCreateWithoutAcceptedRequestsInput {
 input UserCreateWithoutRequestsInput {
   name: String!
   email: String!
+  pictureUrl: String
   password: String!
   phone: String!
   address: String
@@ -1291,6 +1295,8 @@ enum UserOrderByInput {
   name_DESC
   email_ASC
   email_DESC
+  pictureUrl_ASC
+  pictureUrl_DESC
   password_ASC
   password_DESC
   phone_ASC
@@ -1309,6 +1315,7 @@ type UserPreviousValues {
   id: ID!
   name: String!
   email: String!
+  pictureUrl: String
   password: String!
   phone: String!
   address: String
@@ -1359,6 +1366,7 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   name: String
   email: String
+  pictureUrl: String
   password: String
   phone: String
   address: String
@@ -1388,6 +1396,7 @@ input UserUpdateOneWithoutRequestsInput {
 input UserUpdateWithoutAcceptedRequestsDataInput {
   name: String
   email: String
+  pictureUrl: String
   password: String
   phone: String
   address: String
@@ -1398,6 +1407,7 @@ input UserUpdateWithoutAcceptedRequestsDataInput {
 input UserUpdateWithoutRequestsDataInput {
   name: String
   email: String
+  pictureUrl: String
   password: String
   phone: String
   address: String
@@ -1544,6 +1554,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   email_not_ends_with: String
+  pictureUrl: String
+
+  """All values that are not equal to given value."""
+  pictureUrl_not: String
+
+  """All values that are contained in given list."""
+  pictureUrl_in: [String!]
+
+  """All values that are not contained in given list."""
+  pictureUrl_not_in: [String!]
+
+  """All values less than the given value."""
+  pictureUrl_lt: String
+
+  """All values less than or equal the given value."""
+  pictureUrl_lte: String
+
+  """All values greater than the given value."""
+  pictureUrl_gt: String
+
+  """All values greater than or equal the given value."""
+  pictureUrl_gte: String
+
+  """All values containing the given string."""
+  pictureUrl_contains: String
+
+  """All values not containing the given string."""
+  pictureUrl_not_contains: String
+
+  """All values starting with the given string."""
+  pictureUrl_starts_with: String
+
+  """All values not starting with the given string."""
+  pictureUrl_not_starts_with: String
+
+  """All values ending with the given string."""
+  pictureUrl_ends_with: String
+
+  """All values not ending with the given string."""
+  pictureUrl_not_ends_with: String
   password: String
 
   """All values that are not equal to given value."""

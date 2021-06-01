@@ -2,6 +2,25 @@ import bcrypt from 'bcryptjs'
 import getUserId from '../utils/getUserId'
 import generateToken from '../utils/generateToken'
 import hashPassword from '../utils/hashPassword'
+import shortid from 'shortid'
+import { createWriteStream } from 'fs'
+
+const storeUpload = async ({ stream, filename }) => {
+    const id = shortid.generate()
+    const path = `images/${id}`
+    return new Promise((resolve, reject) =>
+      stream
+        .pipe(createWriteStream(path))
+        .on('finish', () => resolve({ id, path }))
+        .on('error', reject),
+    )
+}
+
+const processUpload = async upload => {
+    const { stream, filename } = await upload
+    const { id, path } = await storeUpload({ stream, filename })
+    return path
+}
 
 const Mutation = {
     async createUser(parent, args, { prisma }, info) {
@@ -38,30 +57,53 @@ const Mutation = {
             }
         }, info)
     },
-    async updateUser(parent, args, { prisma, request }, info) {
-        if(args.data.name === '') {
+    async updateUser(parent, { picture, ...data }, { prisma, request }, info) {
+
+        // picture
+
+        if(picture) {
+
+            data.pictureUrl = ""
+            data.pictureUrl = await processUpload(picture)
+
+            console.log("PictureUrl :")
+            console.log(data.pictureUrl)
+        }
+
+        if(data.name === '') {
             throw new Error('Name is required')
         }
-        if(args.data.email === '') {
+        if(data.email === '') {
             throw new Error('Email is required')
         }
-        if(args.data.phone === '') {
+        if(data.phone === '') {
             throw new Error('Phone is required')
         }
-        if(args.data.address === '') {
+        if(data.address === '') {
             throw new Error('Address is required')
         }
         const userId = getUserId(request)
-        if (typeof args.data.password === 'string') {
-            args.data.password = await hashPassword(args.data.password)
+        if (typeof data.password === 'string') {
+            data.password = await hashPassword(data.password)
         }
         return prisma.mutation.updateUser({
             where: {
                 id: userId
             },
-            data: args.data
+            data
         }, info)
     },
+    // ---
+    // async singleUpload(parent, { file }, { prisma, request }, info) {
+    //     const { stream, filename, mimetype, encoding } = await file
+
+    //     // Do work 💪
+    //     //S3
+    //     //Database
+
+    //     return { filename, mimetype, encoding, url: '' }
+    // },
+    // ---
     async login(parent, args, { prisma }, info) {
         const user = await prisma.query.user({
             where: {
