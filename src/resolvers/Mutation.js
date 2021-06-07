@@ -4,22 +4,26 @@ import generateToken from '../utils/generateToken'
 import hashPassword from '../utils/hashPassword'
 import shortid from 'shortid'
 import { createWriteStream } from 'fs'
+import { S3 } from 'aws-sdk'
 
-const storeUpload = async ({ stream, filename }) => {
-    const id = shortid.generate()
-    const path = `images/${id}`
-    return new Promise((resolve, reject) =>
-      stream
-        .pipe(createWriteStream(path))
-        .on('finish', () => resolve({ id, path }))
-        .on('error', reject),
-    )
-}
+const s3client = new S3({
+    accessKeyId: process.env.S3_KEY,
+    secretAccessKey: process.env.S3_SECRET,
+    params: {
+      Bucket: process.env.S3_BUCKET
+    }
+})
 
 const processUpload = async upload => {
-    const { stream, filename } = await upload
-    const { id, path } = await storeUpload({ stream, filename })
-    return path
+    const { stream, filename, mimetype, encoding } = await upload
+    const response = await s3client.upload({
+        Key: process.env.S3_SECRET,
+        ACL: 'public-read',
+        Body: stream,
+        ContentLength: upload.byteCount,
+        ContentType: 'image/jpeg'
+    }).promise()
+    return response.Location
 }
 
 const Mutation = {
@@ -50,60 +54,48 @@ const Mutation = {
     },
     async deleteUser(parent, args, { prisma, request }, info) {
         const userId = getUserId(request)
-
         return prisma.mutation.deleteUser({
             where: {
                 id: userId
             }
         }, info)
     },
-    async updateUser(parent, { picture, ...data }, { prisma, request }, info) {
-
-        // picture
-
-        if(picture) {
-
-            data.pictureUrl = ""
-            data.pictureUrl = await processUpload(picture)
-
-            console.log("PictureUrl :")
-            console.log(data.pictureUrl)
+    async updateUser(parent, args, { prisma, request }, info) {
+        const formData = {} 
+        if(args.data.picture) {
+            formData.pictureUrl = await processUpload(args.data.picture)
         }
-
-        if(data.name === '') {
+        if(args.data.name === '') {
             throw new Error('Name is required')
+        } else {
+            formData.name = args.data.name
         }
-        if(data.email === '') {
+        if(args.data.email === '') {
             throw new Error('Email is required')
+        } else {
+            formData.email = args.data.email
         }
-        if(data.phone === '') {
+        if(args.data.phone === '') {
             throw new Error('Phone is required')
+        } else {
+            formData.phone = args.data.phone
         }
-        if(data.address === '') {
+        if(args.data.address === '') {
             throw new Error('Address is required')
+        } else {
+            formData.address = args.data.address
         }
         const userId = getUserId(request)
-        if (typeof data.password === 'string') {
-            data.password = await hashPassword(data.password)
+        if (typeof args.data.password === 'string') {
+            formData.password = await hashPassword(args.data.password)
         }
         return prisma.mutation.updateUser({
             where: {
                 id: userId
             },
-            data
+            data: formData
         }, info)
     },
-    // ---
-    // async singleUpload(parent, { file }, { prisma, request }, info) {
-    //     const { stream, filename, mimetype, encoding } = await file
-
-    //     // Do work 💪
-    //     //S3
-    //     //Database
-
-    //     return { filename, mimetype, encoding, url: '' }
-    // },
-    // ---
     async login(parent, args, { prisma }, info) {
         const user = await prisma.query.user({
             where: {
