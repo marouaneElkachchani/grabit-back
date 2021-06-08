@@ -36,6 +36,7 @@ input CreateUserInput {
     phone: String!
     address: String
     role: String!
+    pictureUrl: String
 }
 
 input LoginUserInput {
@@ -48,6 +49,7 @@ input UpdateUserInput {
     email: String
     address: String
     picture: Upload
+    pictureUrl: String
     password: String
     phone: String
 }

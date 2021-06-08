@@ -61,9 +61,11 @@ const Mutation = {
         }, info)
     },
     async updateUser(parent, args, { prisma, request }, info) {
-        const formData = {} 
+        const formData = {}
         if(args.data.picture && args.data.picture !== '') {
             formData.pictureUrl = await processUpload(args.data.picture)
+        } else if (args.data.pictureUrl) {
+            formData.pictureUrl = args.data.pictureUrl
         }else {
             formData.pictureUrl = ''
         }
