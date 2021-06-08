@@ -17,7 +17,7 @@ const s3client = new S3({
 const processUpload = async upload => {
     const { stream, filename, mimetype, encoding } = await upload
     const response = await s3client.upload({
-        Key: process.env.S3_SECRET,
+        Key: shortid.generate(),
         ACL: 'public-read',
         Body: stream,
         ContentLength: upload.byteCount,
@@ -62,8 +62,10 @@ const Mutation = {
     },
     async updateUser(parent, args, { prisma, request }, info) {
         const formData = {} 
-        if(args.data.picture) {
+        if(args.data.picture && args.data.picture !== '') {
             formData.pictureUrl = await processUpload(args.data.picture)
+        }else {
+            formData.pictureUrl = ''
         }
         if(args.data.name === '') {
             throw new Error('Name is required')
