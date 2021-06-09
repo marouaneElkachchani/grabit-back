@@ -56,6 +56,23 @@ const Query = {
         }
         return prisma.query.requests(opArgs, info)
     },
+    async onHoldRequests(parent, args, { prisma, request }, info) {
+        const opArgs = {
+            first: args.first,
+            skip: args.skip,
+            after: args.after,
+            orderBy: args.orderBy,
+            where: {}
+        }
+        if (args.query) {
+            opArgs.where.OR = [{
+                    description_contains: args.query
+                }]
+        }
+        const userId = getUserId(request)
+        opArgs.where.status = 'ONHOLD'
+        return prisma.query.requests(opArgs, info)
+    },
     async request(parent, args, { prisma, request }, info) {
         const userId = getUserId(request)
         let driver = null
