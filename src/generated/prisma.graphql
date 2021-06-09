@@ -1,5 +1,5 @@
 # source: http://localhost:4466/grabit/dev
-# timestamp: Tue Jun 01 2021 14:43:34 GMT+0100 (GMT+01:00)
+# timestamp: Wed Jun 09 2021 11:29:44 GMT+0100 (GMT+01:00)
 
 type AggregateCostRange {
   count: Int!
@@ -553,29 +553,29 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createRequest(data: RequestCreateInput!): Request!
   createCostRange(data: CostRangeCreateInput!): CostRange!
+  createUser(data: UserCreateInput!): User!
   createItem(data: ItemCreateInput!): Item!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateRequest(data: RequestUpdateInput!, where: RequestWhereUniqueInput!): Request
   updateCostRange(data: CostRangeUpdateInput!, where: CostRangeWhereUniqueInput!): CostRange
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteRequest(where: RequestWhereUniqueInput!): Request
   deleteCostRange(where: CostRangeWhereUniqueInput!): CostRange
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteItem(where: ItemWhereUniqueInput!): Item
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertRequest(where: RequestWhereUniqueInput!, create: RequestCreateInput!, update: RequestUpdateInput!): Request!
   upsertCostRange(where: CostRangeWhereUniqueInput!, create: CostRangeCreateInput!, update: CostRangeUpdateInput!): CostRange!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyRequests(data: RequestUpdateInput!, where: RequestWhereInput): BatchPayload!
   updateManyCostRanges(data: CostRangeUpdateInput!, where: CostRangeWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyItems(data: ItemUpdateInput!, where: ItemWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyRequests(where: RequestWhereInput): BatchPayload!
   deleteManyCostRanges(where: CostRangeWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyItems(where: ItemWhereInput): BatchPayload!
 }
 
@@ -607,17 +607,17 @@ type PageInfo {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   requests(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Request]!
   costRanges(where: CostRangeWhereInput, orderBy: CostRangeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CostRange]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
-  user(where: UserWhereUniqueInput!): User
   request(where: RequestWhereUniqueInput!): Request
   costRange(where: CostRangeWhereUniqueInput!): CostRange
+  user(where: UserWhereUniqueInput!): User
   item(where: ItemWhereUniqueInput!): Item
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   requestsConnection(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RequestConnection!
   costRangesConnection(where: CostRangeWhereInput, orderBy: CostRangeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CostRangeConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   itemsConnection(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ItemConnection!
 
   """Fetches an object given its ID"""
@@ -663,29 +663,12 @@ input RequestCreateInput {
   items: ItemCreateManyInput
   costRange: CostRangeCreateOneInput!
   owner: UserCreateOneWithoutRequestsInput
-  driver: UserCreateOneWithoutAcceptedRequestsInput
-}
-
-input RequestCreateManyWithoutDriverInput {
-  create: [RequestCreateWithoutDriverInput!]
-  connect: [RequestWhereUniqueInput!]
+  driver: UserCreateOneInput
 }
 
 input RequestCreateManyWithoutOwnerInput {
   create: [RequestCreateWithoutOwnerInput!]
   connect: [RequestWhereUniqueInput!]
-}
-
-input RequestCreateWithoutDriverInput {
-  description: String
-  date: String!
-  schedule: String!
-  addressDeparture: String!
-  deliveryAddress: String!
-  status: String!
-  items: ItemCreateManyInput
-  costRange: CostRangeCreateOneInput!
-  owner: UserCreateOneWithoutRequestsInput
 }
 
 input RequestCreateWithoutOwnerInput {
@@ -697,7 +680,7 @@ input RequestCreateWithoutOwnerInput {
   status: String!
   items: ItemCreateManyInput
   costRange: CostRangeCreateOneInput!
-  driver: UserCreateOneWithoutAcceptedRequestsInput
+  driver: UserCreateOneInput
 }
 
 """An edge in a connection."""
@@ -791,16 +774,7 @@ input RequestUpdateInput {
   items: ItemUpdateManyInput
   costRange: CostRangeUpdateOneInput
   owner: UserUpdateOneWithoutRequestsInput
-  driver: UserUpdateOneWithoutAcceptedRequestsInput
-}
-
-input RequestUpdateManyWithoutDriverInput {
-  create: [RequestCreateWithoutDriverInput!]
-  connect: [RequestWhereUniqueInput!]
-  disconnect: [RequestWhereUniqueInput!]
-  delete: [RequestWhereUniqueInput!]
-  update: [RequestUpdateWithWhereUniqueWithoutDriverInput!]
-  upsert: [RequestUpsertWithWhereUniqueWithoutDriverInput!]
+  driver: UserUpdateOneInput
 }
 
 input RequestUpdateManyWithoutOwnerInput {
@@ -812,18 +786,6 @@ input RequestUpdateManyWithoutOwnerInput {
   upsert: [RequestUpsertWithWhereUniqueWithoutOwnerInput!]
 }
 
-input RequestUpdateWithoutDriverDataInput {
-  description: String
-  date: String
-  schedule: String
-  addressDeparture: String
-  deliveryAddress: String
-  status: String
-  items: ItemUpdateManyInput
-  costRange: CostRangeUpdateOneInput
-  owner: UserUpdateOneWithoutRequestsInput
-}
-
 input RequestUpdateWithoutOwnerDataInput {
   description: String
   date: String
@@ -833,23 +795,12 @@ input RequestUpdateWithoutOwnerDataInput {
   status: String
   items: ItemUpdateManyInput
   costRange: CostRangeUpdateOneInput
-  driver: UserUpdateOneWithoutAcceptedRequestsInput
-}
-
-input RequestUpdateWithWhereUniqueWithoutDriverInput {
-  where: RequestWhereUniqueInput!
-  data: RequestUpdateWithoutDriverDataInput!
+  driver: UserUpdateOneInput
 }
 
 input RequestUpdateWithWhereUniqueWithoutOwnerInput {
   where: RequestWhereUniqueInput!
   data: RequestUpdateWithoutOwnerDataInput!
-}
-
-input RequestUpsertWithWhereUniqueWithoutDriverInput {
-  where: RequestWhereUniqueInput!
-  update: RequestUpdateWithoutDriverDataInput!
-  create: RequestCreateWithoutDriverInput!
 }
 
 input RequestUpsertWithWhereUniqueWithoutOwnerInput {
@@ -1204,9 +1155,9 @@ input RequestWhereUniqueInput {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   request(where: RequestSubscriptionWhereInput): RequestSubscriptionPayload
   costRange(where: CostRangeSubscriptionWhereInput): CostRangeSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
 }
 
@@ -1221,7 +1172,6 @@ type User implements Node {
   updatedAt: DateTime!
   createdAt: DateTime!
   requests(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Request!]
-  acceptedRequests(where: RequestWhereInput, orderBy: RequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Request!]
   role: String!
 }
 
@@ -1244,28 +1194,16 @@ input UserCreateInput {
   address: String
   role: String!
   requests: RequestCreateManyWithoutOwnerInput
-  acceptedRequests: RequestCreateManyWithoutDriverInput
 }
 
-input UserCreateOneWithoutAcceptedRequestsInput {
-  create: UserCreateWithoutAcceptedRequestsInput
+input UserCreateOneInput {
+  create: UserCreateInput
   connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutRequestsInput {
   create: UserCreateWithoutRequestsInput
   connect: UserWhereUniqueInput
-}
-
-input UserCreateWithoutAcceptedRequestsInput {
-  name: String!
-  email: String!
-  pictureUrl: String
-  password: String!
-  phone: String!
-  address: String
-  role: String!
-  requests: RequestCreateManyWithoutOwnerInput
 }
 
 input UserCreateWithoutRequestsInput {
@@ -1276,7 +1214,6 @@ input UserCreateWithoutRequestsInput {
   phone: String!
   address: String
   role: String!
-  acceptedRequests: RequestCreateManyWithoutDriverInput
 }
 
 """An edge in a connection."""
@@ -1363,6 +1300,17 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  pictureUrl: String
+  password: String
+  phone: String
+  address: String
+  role: String
+  requests: RequestUpdateManyWithoutOwnerInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -1372,16 +1320,15 @@ input UserUpdateInput {
   address: String
   role: String
   requests: RequestUpdateManyWithoutOwnerInput
-  acceptedRequests: RequestUpdateManyWithoutDriverInput
 }
 
-input UserUpdateOneWithoutAcceptedRequestsInput {
-  create: UserCreateWithoutAcceptedRequestsInput
+input UserUpdateOneInput {
+  create: UserCreateInput
   connect: UserWhereUniqueInput
   disconnect: Boolean
   delete: Boolean
-  update: UserUpdateWithoutAcceptedRequestsDataInput
-  upsert: UserUpsertWithoutAcceptedRequestsInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
 }
 
 input UserUpdateOneWithoutRequestsInput {
@@ -1393,17 +1340,6 @@ input UserUpdateOneWithoutRequestsInput {
   upsert: UserUpsertWithoutRequestsInput
 }
 
-input UserUpdateWithoutAcceptedRequestsDataInput {
-  name: String
-  email: String
-  pictureUrl: String
-  password: String
-  phone: String
-  address: String
-  role: String
-  requests: RequestUpdateManyWithoutOwnerInput
-}
-
 input UserUpdateWithoutRequestsDataInput {
   name: String
   email: String
@@ -1412,12 +1348,11 @@ input UserUpdateWithoutRequestsDataInput {
   phone: String
   address: String
   role: String
-  acceptedRequests: RequestUpdateManyWithoutDriverInput
 }
 
-input UserUpsertWithoutAcceptedRequestsInput {
-  update: UserUpdateWithoutAcceptedRequestsDataInput!
-  create: UserCreateWithoutAcceptedRequestsInput!
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutRequestsInput {
@@ -1801,9 +1736,6 @@ input UserWhereInput {
   requests_every: RequestWhereInput
   requests_some: RequestWhereInput
   requests_none: RequestWhereInput
-  acceptedRequests_every: RequestWhereInput
-  acceptedRequests_some: RequestWhereInput
-  acceptedRequests_none: RequestWhereInput
 }
 
 input UserWhereUniqueInput {

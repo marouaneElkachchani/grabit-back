@@ -9,7 +9,6 @@ type User {
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
   requests: [Request!]! @relation(name: "RequestToCustomer", onDelete: CASCADE)
-  acceptedRequests: [Request!]! @relation(name: "RequestToDriver", onDelete: CASCADE)
   role: String!
 }
 
