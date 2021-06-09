@@ -142,27 +142,11 @@ const Mutation = {
             throw new Error('Delivery Address is required')
         }
         let driver = null
-        let owner = null
-        let status = null
-        const user = await prisma.query.user({
-            where: {
+        let status = 'ONHOLD'
+        let owner = {
+            connect: {
                 id: userId
             }
-        })
-        if(user.role === 'DRIVER') {
-            driver = {
-                connect: {
-                    id: userId
-                }
-            }
-            status = 'ASSIGNED'
-        }else {
-            owner = {
-                connect: {
-                    id: userId
-                }
-            }
-            status = 'ONHOLD'
         }
         return prisma.mutation.createRequest({
             data: {
@@ -217,26 +201,14 @@ const Mutation = {
     },
     async updateRequest(parent, args, { prisma, request }, info) {
         const userId =  getUserId(request)
-        let driver = null
-        let owner = null
-        const user = await prisma.query.user({
-            where: {
-                id: userId
-            }
-        })
-        if(user.role === 'DRIVER') {
-            driver = {
+        let driver = {
+                connect: {
                     id: userId
-            }
-        }else {
-            owner = {
-                    id: userId
-            }
+                }
         }
+        let status = 'ASSIGNED'
         const requestExists = await prisma.exists.Request({
-            id: args.id,
-            driver,
-            owner
+            id: args.id
         })
         if (!requestExists) {
             throw new Error('Enable to update Request')
@@ -245,7 +217,11 @@ const Mutation = {
             where: {
                 id: args.id
             },
-            data: args.data
+            data: {
+                ...args.data,
+                driver,
+                status
+            }
         }, info)
     }
 }
