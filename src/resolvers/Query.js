@@ -94,8 +94,8 @@ const Query = {
         const requests = await prisma.query.requests({
             where: {
                 id: args.id,
-                driver,
-                owner
+                //driver,
+                //owner
             }
         }, info)
 
