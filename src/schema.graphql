@@ -17,7 +17,7 @@ type Mutation {
     login(data: LoginUserInput!): AuthPayload!
     createRequest(data: CreateRequestInput!): Request!
     deleteRequest(id: ID!): Request!
-    updateRequest(id: ID!, data: UpdateRequestInput!): Request!
+    updateRequest(id: ID!): Request!
 }
 
 type Subscription {
@@ -63,6 +63,8 @@ input CreateRequestInput {
     costRange: CreateCostRangeInput!
     addressDeparture: String!
     deliveryAddress: String!
+    originPlaceId: String!
+    destinationPlaceId: String!
 }
 
 input UpdateRequestInput {
@@ -110,6 +112,8 @@ type Request {
   status: String!
   owner: User
   driver: User
+  originPlaceId: String!
+  destinationPlaceId: String!
 }
 
 type User {

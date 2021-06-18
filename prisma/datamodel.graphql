@@ -41,5 +41,7 @@ type Request {
   driver: User @relation(name: "RequestToDriver", onDelete: SET_NULL)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
+  originPlaceId: String!
+  destinationPlaceId: String!
 }
 

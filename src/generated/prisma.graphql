@@ -1,5 +1,5 @@
 # source: http://localhost:4466/grabit/dev
-# timestamp: Wed Jun 09 2021 11:29:44 GMT+0100 (GMT+01:00)
+# timestamp: Wed Jun 16 2021 16:21:26 GMT+0100 (GMT+01:00)
 
 type AggregateCostRange {
   count: Int!
@@ -641,6 +641,8 @@ type Request implements Node {
   driver(where: UserWhereInput): User
   updatedAt: DateTime!
   createdAt: DateTime!
+  originPlaceId: String!
+  destinationPlaceId: String!
 }
 
 """A connection to a list of items."""
@@ -660,6 +662,8 @@ input RequestCreateInput {
   addressDeparture: String!
   deliveryAddress: String!
   status: String!
+  originPlaceId: String!
+  destinationPlaceId: String!
   items: ItemCreateManyInput
   costRange: CostRangeCreateOneInput!
   owner: UserCreateOneWithoutRequestsInput
@@ -678,6 +682,8 @@ input RequestCreateWithoutOwnerInput {
   addressDeparture: String!
   deliveryAddress: String!
   status: String!
+  originPlaceId: String!
+  destinationPlaceId: String!
   items: ItemCreateManyInput
   costRange: CostRangeCreateOneInput!
   driver: UserCreateOneInput
@@ -711,6 +717,10 @@ enum RequestOrderByInput {
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  originPlaceId_ASC
+  originPlaceId_DESC
+  destinationPlaceId_ASC
+  destinationPlaceId_DESC
 }
 
 type RequestPreviousValues {
@@ -723,6 +733,8 @@ type RequestPreviousValues {
   status: String!
   updatedAt: DateTime!
   createdAt: DateTime!
+  originPlaceId: String!
+  destinationPlaceId: String!
 }
 
 type RequestSubscriptionPayload {
@@ -771,6 +783,8 @@ input RequestUpdateInput {
   addressDeparture: String
   deliveryAddress: String
   status: String
+  originPlaceId: String
+  destinationPlaceId: String
   items: ItemUpdateManyInput
   costRange: CostRangeUpdateOneInput
   owner: UserUpdateOneWithoutRequestsInput
@@ -793,6 +807,8 @@ input RequestUpdateWithoutOwnerDataInput {
   addressDeparture: String
   deliveryAddress: String
   status: String
+  originPlaceId: String
+  destinationPlaceId: String
   items: ItemUpdateManyInput
   costRange: CostRangeUpdateOneInput
   driver: UserUpdateOneInput
@@ -1142,6 +1158,86 @@ input RequestWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  originPlaceId: String
+
+  """All values that are not equal to given value."""
+  originPlaceId_not: String
+
+  """All values that are contained in given list."""
+  originPlaceId_in: [String!]
+
+  """All values that are not contained in given list."""
+  originPlaceId_not_in: [String!]
+
+  """All values less than the given value."""
+  originPlaceId_lt: String
+
+  """All values less than or equal the given value."""
+  originPlaceId_lte: String
+
+  """All values greater than the given value."""
+  originPlaceId_gt: String
+
+  """All values greater than or equal the given value."""
+  originPlaceId_gte: String
+
+  """All values containing the given string."""
+  originPlaceId_contains: String
+
+  """All values not containing the given string."""
+  originPlaceId_not_contains: String
+
+  """All values starting with the given string."""
+  originPlaceId_starts_with: String
+
+  """All values not starting with the given string."""
+  originPlaceId_not_starts_with: String
+
+  """All values ending with the given string."""
+  originPlaceId_ends_with: String
+
+  """All values not ending with the given string."""
+  originPlaceId_not_ends_with: String
+  destinationPlaceId: String
+
+  """All values that are not equal to given value."""
+  destinationPlaceId_not: String
+
+  """All values that are contained in given list."""
+  destinationPlaceId_in: [String!]
+
+  """All values that are not contained in given list."""
+  destinationPlaceId_not_in: [String!]
+
+  """All values less than the given value."""
+  destinationPlaceId_lt: String
+
+  """All values less than or equal the given value."""
+  destinationPlaceId_lte: String
+
+  """All values greater than the given value."""
+  destinationPlaceId_gt: String
+
+  """All values greater than or equal the given value."""
+  destinationPlaceId_gte: String
+
+  """All values containing the given string."""
+  destinationPlaceId_contains: String
+
+  """All values not containing the given string."""
+  destinationPlaceId_not_contains: String
+
+  """All values starting with the given string."""
+  destinationPlaceId_starts_with: String
+
+  """All values not starting with the given string."""
+  destinationPlaceId_not_starts_with: String
+
+  """All values ending with the given string."""
+  destinationPlaceId_ends_with: String
+
+  """All values not ending with the given string."""
+  destinationPlaceId_not_ends_with: String
   items_every: ItemWhereInput
   items_some: ItemWhereInput
   items_none: ItemWhereInput

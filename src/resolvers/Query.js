@@ -48,7 +48,6 @@ const Query = {
             opArgs.where.driver = {
                     id: userId
             }
-            opArgs.where.status = 'DELIVERED'
         }else {
             opArgs.where.owner = {
                     id: userId

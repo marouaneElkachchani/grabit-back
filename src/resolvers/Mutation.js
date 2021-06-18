@@ -141,6 +141,12 @@ const Mutation = {
         if(args.data.deliveryAddress === '') {
             throw new Error('Delivery Address is required')
         }
+        if(args.data.originPlaceId === '') {
+            throw new Error('Origin Place Id is required')
+        }
+        if(args.data.destinationPlaceId === '') {
+            throw new Error('Destination Place Id is required')
+        }
         let driver = null
         let status = 'ONHOLD'
         let owner = {
@@ -163,7 +169,9 @@ const Mutation = {
                 deliveryAddress: args.data.deliveryAddress,
                 status,
                 owner,
-                driver
+                driver,
+                originPlaceId: args.data.originPlaceId,
+                destinationPlaceId: args.data.destinationPlaceId
             }
         }, info)
     },
@@ -212,6 +220,15 @@ const Mutation = {
         })
         if (!requestExists) {
             throw new Error('Enable to update Request')
+        }
+        //get request
+        const requests = await prisma.query.requests({
+            where: {
+                id: args.id
+            }
+        })
+        if(requests[0].status === 'ASSIGNED') {
+            status = 'DELIVERED'
         }
         return prisma.mutation.updateRequest({
             where: {
