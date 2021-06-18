@@ -73,37 +73,30 @@ const Query = {
         return prisma.query.requests(opArgs, info)
     },
     async request(parent, args, { prisma, request }, info) {
+        const opArgs = {
+            where: {}
+        }
         const userId = getUserId(request)
-        let driver = null
-        let owner = null
         const user = await prisma.query.user({
             where: {
                 id: userId
             }
         })
         if(user.role === 'DRIVER') {
-            driver = {
-                    id: userId
+            opArgs.where.driver = {
+                id: userId
             }
         }else {
-            owner = {
-                    id: userId
+            opArgs.where.owner = {
+                id: userId
             }
         }
-        const requests = await prisma.query.requests({
-            where: {
-                id: args.id,
-                //driver,
-                //owner
-            }
-        }, info)
-
+        const requests = await prisma.query.requests(opArgs, info)
         if (requests.length === 0) {
             throw new Error('Request not found')
         }
         return requests[0]
     }
-
 }
 
 export { Query as default }
