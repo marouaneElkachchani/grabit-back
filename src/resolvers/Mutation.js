@@ -208,26 +208,27 @@ const Mutation = {
         }, info)
     },
     async updateRequest(parent, args, { prisma, request }, info) {
+        let status
         const userId =  getUserId(request)
         let driver = {
-                connect: {
-                    id: userId
-                }
+            connect: {
+                id: userId
+            }
         }
-        let status = 'ASSIGNED'
         const requestExists = await prisma.exists.Request({
             id: args.id
         })
         if (!requestExists) {
             throw new Error('Enable to update Request')
         }
-        //get request
         const requests = await prisma.query.requests({
             where: {
                 id: args.id
             }
         })
-        if(requests[0].status === 'ASSIGNED') {
+        if(requests[0].status === 'ONHOLD') {
+            status = 'ASSIGNED'
+        } else if (requests[0].status === 'ASSIGNED') {
             status = 'DELIVERED'
         }
         return prisma.mutation.updateRequest({
