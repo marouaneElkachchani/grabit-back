@@ -26,6 +26,7 @@ const Query = {
         })
     },
     async myRequests(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
         const opArgs = {
             first: args.first,
             skip: args.skip,
@@ -38,13 +39,12 @@ const Query = {
                     description_contains: args.query
                 }]
         }
-        const userId = getUserId(request)
         const user = await prisma.query.user({
             where: {
                 id: userId
             }
         })
-        if(user.role === 'DRIVER') {
+        if (user.role === 'DRIVER') {
             opArgs.where.driver = {
                     id: userId
             }
@@ -56,6 +56,7 @@ const Query = {
         return prisma.query.requests(opArgs, info)
     },
     async onHoldRequests(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
         const opArgs = {
             first: args.first,
             skip: args.skip,
@@ -68,27 +69,14 @@ const Query = {
                     description_contains: args.query
                 }]
         }
-        const userId = getUserId(request)
         opArgs.where.status = 'ONHOLD'
         return prisma.query.requests(opArgs, info)
     },
     async request(parent, args, { prisma, request }, info) {
-        const opArgs = {
-            where: {}
-        }
         const userId = getUserId(request)
-        const user = await prisma.query.user({
+        const opArgs = {
             where: {
-                id: userId
-            }
-        })
-        if(user.role === 'DRIVER') {
-            opArgs.where.driver = {
-                id: userId
-            }
-        }else {
-            opArgs.where.owner = {
-                id: userId
+                id: args.id
             }
         }
         const requests = await prisma.query.requests(opArgs, info)
