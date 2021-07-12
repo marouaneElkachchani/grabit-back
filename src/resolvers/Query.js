@@ -55,6 +55,56 @@ const Query = {
         }
         return prisma.query.requests(opArgs, info)
     },
+    async myAssignedRequests(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
+        const opArgs = {
+            first: args.first,
+            skip: args.skip,
+            after: args.after,
+            orderBy: args.orderBy,
+            where: {}
+        }
+        if (args.query) {
+            opArgs.where.OR = [{
+                    description_contains: args.query
+                }]
+        }
+        const user = await prisma.query.user({
+            where: {
+                id: userId
+            }
+        })
+        opArgs.where.driver = {
+            id: userId
+        }
+        opArgs.where.status = 'ASSIGNED'
+        return prisma.query.requests(opArgs, info)
+    },
+    async myDeliveredRequests(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
+        const opArgs = {
+            first: args.first,
+            skip: args.skip,
+            after: args.after,
+            orderBy: args.orderBy,
+            where: {}
+        }
+        if (args.query) {
+            opArgs.where.OR = [{
+                    description_contains: args.query
+                }]
+        }
+        const user = await prisma.query.user({
+            where: {
+                id: userId
+            }
+        })
+        opArgs.where.driver = {
+            id: userId
+        }
+        opArgs.where.status = 'DELIVERED'
+        return prisma.query.requests(opArgs, info)
+    },
     async onHoldRequests(parent, args, { prisma, request }, info) {
         const userId = getUserId(request)
         const opArgs = {

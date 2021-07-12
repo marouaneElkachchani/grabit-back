@@ -6,6 +6,8 @@ type Query {
     users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
     me: User!
     myRequests(query: String, first: Int, skip: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
+    myAssignedRequests(query: String, first: Int, skip: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
+    myDeliveredRequests(query: String, first: Int, skip: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
     onHoldRequests(query: String, first: Int, skip: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
     request(id: ID!): Request!
 }
