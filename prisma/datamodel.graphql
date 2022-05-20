@@ -1,0 +1,47 @@
+type User {
+  id: ID! @unique @id
+  name: String!
+  email: String! @unique
+  pictureUrl: String
+  password: String!
+  phone: String!
+  address: String
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+  requests: [Request!]! @relation(name: "RequestToCustomer", onDelete: CASCADE)
+  role: String!
+}
+
+type Item {
+  id: ID! @unique @id
+  name: String!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type CostRange {
+  id: ID! @unique @id
+  from: Float!
+  to: Float!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type Request {
+  id: ID! @unique @id
+  description: String
+  items: [Item!]! @relation(name: "ItemToRequest", onDelete: CASCADE)
+  date: String!
+  schedule: String!
+  costRange: CostRange! @relation(name: "RequestToCostRange", onDelete: CASCADE)
+  addressDeparture: String!
+  deliveryAddress: String!
+  status: String!
+  owner: User @relation(name: "RequestToCustomer", onDelete: SET_NULL)
+  driver: User @relation(name: "RequestToDriver", onDelete: SET_NULL)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+  originPlaceId: String!
+  destinationPlaceId: String!
+}
+

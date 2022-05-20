@@ -1,0 +1,161 @@
+# import UserOrderByInput, RequestOrderByInput from './generated/prisma.graphql'
+
+scalar Upload
+
+type Query {
+    users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
+    me: User!
+    myRequests(query: String, first: Int, skip: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
+    myAssignedRequests(query: String, first: Int, skip: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
+    myDeliveredRequests(query: String, first: Int, skip: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
+    onHoldRequests(query: String, first: Int, skip: Int, after: String, orderBy: RequestOrderByInput): [Request!]!
+    request(id: ID!): Request!
+}
+
+type Mutation {
+    createUser(data: CreateUserInput!): AuthPayload!
+    deleteUser: User!
+    updateUser(data: UpdateUserInput!): User!
+    login(data: LoginUserInput!): AuthPayload!
+    createRequest(data: CreateRequestInput!): Request!
+    deleteRequest(id: ID!): Request!
+    updateRequest(id: ID!): Request!
+}
+
+type Subscription {
+     myAssignedRequestsAsCustomer: RequestSubscriptionPayload!
+     onHoldRequests: RequestSubscriptionPayload!
+}
+
+type AuthPayload {
+    token: String!
+    user: User!
+}
+
+input CreateUserInput {
+    name: String!
+    email: String!
+    password: String!
+    phone: String!
+    address: String
+    role: String!
+    pictureUrl: String
+}
+
+input LoginUserInput {
+    email: String!
+    password: String!
+}
+
+input UpdateUserInput {
+    name: String
+    email: String
+    address: String
+    picture: Upload
+    pictureUrl: String
+    password: String
+    phone: String
+}
+
+input CreateRequestInput {
+    description: String!
+    items: [CreateItemInput!]!
+    date: String!
+    schedule: String!
+    costRange: CreateCostRangeInput!
+    addressDeparture: String!
+    deliveryAddress: String!
+    originPlaceId: String!
+    destinationPlaceId: String!
+}
+
+input UpdateRequestInput {
+    status: String!
+}
+
+input CreateItemInput {
+    name: String!
+}
+
+input UpdateItemInput {
+    name: String
+}
+
+input CreateCostRangeInput {
+    from: Float!
+    to: Float!
+}
+
+input UpdateCostRangeInput {
+    from: Float
+    to: Float
+}
+
+type Item {
+    id: ID!
+    name: String!
+}
+
+type CostRange {
+    id: ID!
+    from: Float!
+    to: Float!
+}
+
+type Request {
+  id: ID!
+  description: String
+  items: [Item!]!
+  date: String!
+  schedule: String!
+  costRange: CostRange!
+  addressDeparture: String!
+  deliveryAddress: String!
+  status: String!
+  owner: User
+  driver: User
+  originPlaceId: String!
+  destinationPlaceId: String!
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String
+    pictureUrl: String
+    password: String
+    updatedAt: String!
+    createdAt: String!
+    phone: String!
+    address: String
+    role: Role!
+    requests: [Request!]!
+}
+
+enum MutationType {
+    CREATED
+    UPDATED
+    DELETED
+}
+
+enum Role {
+    CUSTOMER
+    DRIVER
+}
+
+enum RequestStatus {
+  ONHOLD
+  ASSIGNED
+  DELIVERED
+}
+
+enum RequestSchedule {
+    ASAP
+    TODAY
+    THISWEEK
+}
+
+type RequestSubscriptionPayload {
+    mutation: MutationType!
+    node: Request
+}
